@@ -29,7 +29,6 @@ import org.springframework.security.oauth2.server.authorization.config.TokenSett
 import org.springframework.security.web.SecurityFilterChain
 import java.time.Duration
 import java.util.*
-import org.springframework.security.config.Customizer
 
 @Configuration(proxyBeanMethods = false)
 class AuthorizationServerConfig {
@@ -67,7 +66,9 @@ class AuthorizationServerConfig {
         registeredClientParametersMapper.setPasswordEncoder(passwordEncoder)
         registeredClientRepository.setRegisteredClientParametersMapper(registeredClientParametersMapper)
 
-        if (registeredClientRepository.findByClientId(yourClientId) == null) {
+        val client = registeredClientRepository.findByClientId(yourClientId)
+
+        if (client == null) {
             val registeredClient: RegisteredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .tokenSettings(
                     TokenSettings.builder()
@@ -117,6 +118,8 @@ class AuthorizationServerConfig {
 
     @Bean
     fun providerSettings(): ProviderSettings {
-        return ProviderSettings.builder().issuer("http://localhost:9000").build()
+
+        val x = ProviderSettings.builder().issuer("http://localhost:9000").build()
+        return x
     }
 }
