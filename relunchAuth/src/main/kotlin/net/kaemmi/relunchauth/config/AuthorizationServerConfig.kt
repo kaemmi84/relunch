@@ -82,12 +82,10 @@ class AuthorizationServerConfig {
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUri("http://127.0.0.1:8081/authorized")
-                .redirectUri("https://oauth.pstmn.io/v1/callback")
+                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/articles-client-oidc")
+                .redirectUri("http://127.0.0.1:8080/authorized")
                 .scope(OidcScopes.OPENID)
-                .scope("")
-                .scope("yourapplication.read")
-                .scope("yourapplication.write")
+                .scope("articles.read")
                 .build()
 
             registeredClientRepository.save(registeredClient)
@@ -119,7 +117,7 @@ class AuthorizationServerConfig {
     @Bean
     fun providerSettings(): ProviderSettings {
 
-        val x = ProviderSettings.builder().issuer("http://localhost:9000").build()
+        val x = ProviderSettings.builder().issuer("http://auth-server:9000").build()
         return x
     }
 }
